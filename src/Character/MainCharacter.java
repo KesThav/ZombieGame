@@ -20,23 +20,23 @@ public class MainCharacter extends Characters {
   public void move(char direction) {
     switch (direction) {
       case 'U':
-        if (positionY - 10 > 0) {
-          positionY -= 10;
+        if (positionY - 30 > 0) {
+          positionY -= 30;
           break;
         }
       case 'D':
-        if (positionY + 10 < SCREEN_HEIGHT) {
-          positionY += 10;
+        if (positionY + 30 < SCREEN_HEIGHT) {
+          positionY += 30;
           break;
         }
       case 'L':
-        if (positionX - 10 > 0) {
-          positionX -= 10;
+        if (positionX - 30 > 0) {
+          positionX -= 30;
           break;
         }
       case 'R':
-        if (positionX + 10 < SCREEN_WIDTH) {
-          positionX += 10;
+        if (positionX + 30 < SCREEN_WIDTH) {
+          positionX += 30;
           break;
         }
     }

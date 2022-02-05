@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import javax.swing.*;
 import Character.MainCharacter;
 import Character.Zombie;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Rectangle;
 import weapon.Pistol;
 import java.awt.Graphics2D;
 
@@ -17,7 +15,7 @@ public class GamePanel extends JPanel implements ActionListener {
   Timer timer;
   MainCharacter m = createMainCharacter();
   boolean running = false;
-  static final int DELAY = 75;
+  static final int DELAY = 35;
   ArrayList<Zombie> myZombieList = createZombieArray();
   ArrayList<Pistol> PistolList = new ArrayList<Pistol>();
 
@@ -43,7 +41,6 @@ public class GamePanel extends JPanel implements ActionListener {
   }
 
   public void draw(Graphics g) {
-    Graphics g2 = (Graphics2D) g;
     if (m.image != null) {
       Graphics2D g2d = (Graphics2D) g.create();
       g2d.drawImage(m.image, m.positionX, m.positionY, 50, 50, this);
@@ -52,9 +49,20 @@ public class GamePanel extends JPanel implements ActionListener {
         g2d.drawImage(myZombieList.get(i).image, myZombieList.get(i).positionX,
             myZombieList.get(i).positionY, 50, 50,
             this);
+        g2d.drawRect(myZombieList.get(i).positionX, myZombieList.get(i).positionY, myZombieList.get(i).w,
+            myZombieList.get(i).h);
 
       }
-
+      g.setColor(Color.red);
+      g.setFont(new Font("Arial", Font.BOLD, 15));
+      FontMetrics metrics1 = getFontMetrics(g.getFont());
+      FontMetrics metrics2 = getFontMetrics(g.getFont());
+      g.drawString("Zombie restants: " + myZombieList.size(),
+          (SCREEN_WIDTH - metrics1.stringWidth("Zombie restants: " + myZombieList.size())) / 4,
+          g.getFont().getSize());
+      g.drawString("Vie: " + m.health,
+          (SCREEN_WIDTH - metrics2.stringWidth("Vie: " + m.health)) / 2,
+          g.getFont().getSize());
     }
 
   }
@@ -79,7 +87,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
   public ArrayList<Zombie> createZombieArray() {
     ArrayList<Zombie> myZombieList = new ArrayList<Zombie>();
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 10; i++) {
       myZombieList.add(createZombie());
     }
     return myZombieList;
@@ -118,16 +126,21 @@ public class GamePanel extends JPanel implements ActionListener {
   }
 
   public void checkCollisionWithZombie() {
+    boolean breaked = false;
     for (int j = 0; j < PistolList.size(); j++) {
       for (int i = 0; i < myZombieList.size(); i++) {
         if (myZombieList.get(i).positionX < PistolList.get(j).posX + PistolList.get(j).w &&
             myZombieList.get(i).positionX + myZombieList.get(i).w > PistolList.get(j).posX &&
             myZombieList.get(i).positionY < PistolList.get(j).posY + PistolList.get(j).h &&
             myZombieList.get(i).positionY + myZombieList.get(i).h > PistolList.get(j).posY) {
-          PistolList.remove(j);
           myZombieList.remove(i);
-
+          PistolList.remove(j);
+          breaked = true;
+          break;
         }
+      }
+      if (breaked) {
+        break;
       }
     }
   }
@@ -174,9 +187,6 @@ public class GamePanel extends JPanel implements ActionListener {
 
     @Override
     public void mouseClicked(java.awt.event.MouseEvent e) {
-      int mouseX = (int) e.getX();
-      int mouseY = (int) e.getY();
-      PistolList.add(new Pistol(1, m.positionX, m.positionY, mouseX, mouseY));
 
     }
 
@@ -185,7 +195,6 @@ public class GamePanel extends JPanel implements ActionListener {
       int mouseX = (int) e.getX();
       int mouseY = (int) e.getY();
       PistolList.add(new Pistol(1, m.positionX, m.positionY, mouseX, mouseY));
-
     }
 
     @Override
