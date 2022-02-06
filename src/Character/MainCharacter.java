@@ -1,9 +1,5 @@
 package Character;
 
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import AbstractClass.Characters;
 
 public class MainCharacter extends Characters {

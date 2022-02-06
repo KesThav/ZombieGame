@@ -25,7 +25,7 @@ public class Weapons {
     this.targetPosX = targetPosX;
     this.targetPosY = targetPosY;
     try {
-      this.image = ImageIO.read(Characters.class.getResource("../img/bullet.jpg"));
+      this.image = ImageIO.read(Characters.class.getResource("../img/bombe.png"));
       this.w = image.getWidth();
       this.h = image.getHeight();
     } catch (IOException ex) {

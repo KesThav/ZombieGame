@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 import Character.MainCharacter;
 import Character.Zombie;
+import javafx.scene.shape.Rectangle;
 import weapon.Pistol;
-import java.awt.Graphics2D;
 
 public class GamePanel extends JPanel implements ActionListener {
 
@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
   GamePanel() {
     this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-    this.setBackground(Color.black);
+    this.setBackground(Color.white);
     this.setFocusable(true);
     this.addKeyListener(new MyKeyAdapter());
     this.addMouseListener(new MyMouseAdapter());
@@ -45,14 +45,17 @@ public class GamePanel extends JPanel implements ActionListener {
       Graphics2D g2d = (Graphics2D) g.create();
       g2d.drawImage(m.image, m.positionX, m.positionY, 50, 50, this);
 
-      for (int i = 0; i < myZombieList.size(); i++) {
-        g2d.drawImage(myZombieList.get(i).image, myZombieList.get(i).positionX,
-            myZombieList.get(i).positionY, 50, 50,
-            this);
-        g2d.drawRect(myZombieList.get(i).positionX, myZombieList.get(i).positionY, myZombieList.get(i).w,
-            myZombieList.get(i).h);
-
-      }
+      /*
+       * for (int i = 0; i < myZombieList.size(); i++) {
+       * g2d.drawImage(myZombieList.get(i).image, myZombieList.get(i).positionX,
+       * myZombieList.get(i).positionY, 50, 50,
+       * this);
+       * g2d.drawRect(myZombieList.get(i).positionX, myZombieList.get(i).positionY,
+       * myZombieList.get(i).w,
+       * myZombieList.get(i).h);
+       * 
+       * }
+       */
       g.setColor(Color.red);
       g.setFont(new Font("Arial", Font.BOLD, 15));
       FontMetrics metrics1 = getFontMetrics(g.getFont());
@@ -115,13 +118,17 @@ public class GamePanel extends JPanel implements ActionListener {
     for (int j = 0; j < PistolList.size(); j++) {
       PistolList.get(j).shoot(PistolList.get(j).posX, PistolList.get(j).posY, PistolList.get(j).targetPosX,
           PistolList.get(j).targetPosY);
-      if (PistolList.get(j).posX >= PistolList.get(j).targetPosX
-          && PistolList.get(j).posY >= PistolList.get(j).targetPosY) {
+
+      Rectangle r = new Rectangle(PistolList.get(j).posX, PistolList.get(j).posY, PistolList.get(j).w,
+          PistolList.get(j).h);
+      if (r.contains(PistolList.get(j).targetPosX, PistolList.get(j).targetPosY)) {
         PistolList.remove(j);
+        break;
       }
+
     }
-    checkCollision();
-    checkCollisionWithZombie();
+    // checkCollision();
+    // checkCollisionWithZombie();
     repaint();
   }
 
@@ -156,19 +163,19 @@ public class GamePanel extends JPanel implements ActionListener {
     @Override
     public void keyPressed(java.awt.event.KeyEvent e) {
       switch (e.getKeyCode()) {
-        case java.awt.event.KeyEvent.VK_LEFT:
+        case java.awt.event.KeyEvent.VK_A:
           m.move('L');
           repaint();
           break;
-        case java.awt.event.KeyEvent.VK_RIGHT:
+        case java.awt.event.KeyEvent.VK_D:
           m.move('R');
           repaint();
           break;
-        case java.awt.event.KeyEvent.VK_UP:
+        case java.awt.event.KeyEvent.VK_W:
           m.move('U');
           repaint();
           break;
-        case java.awt.event.KeyEvent.VK_DOWN:
+        case java.awt.event.KeyEvent.VK_S:
           m.move('D');
           repaint();
           break;
