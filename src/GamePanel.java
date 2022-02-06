@@ -43,19 +43,18 @@ public class GamePanel extends JPanel implements ActionListener {
   public void draw(Graphics g) {
     if (m.image != null) {
       Graphics2D g2d = (Graphics2D) g.create();
-      g2d.drawImage(m.image, m.positionX, m.positionY, 50, 50, this);
+      g2d.drawImage(m.image, m.positionX, m.positionY, this);
 
-      /*
-       * for (int i = 0; i < myZombieList.size(); i++) {
-       * g2d.drawImage(myZombieList.get(i).image, myZombieList.get(i).positionX,
-       * myZombieList.get(i).positionY, 50, 50,
-       * this);
-       * g2d.drawRect(myZombieList.get(i).positionX, myZombieList.get(i).positionY,
-       * myZombieList.get(i).w,
-       * myZombieList.get(i).h);
-       * 
-       * }
-       */
+      for (int i = 0; i < myZombieList.size(); i++) {
+        g2d.drawImage(myZombieList.get(i).image, myZombieList.get(i).positionX,
+            myZombieList.get(i).positionY,
+            this);
+        g2d.drawRect(myZombieList.get(i).positionX, myZombieList.get(i).positionY,
+            myZombieList.get(i).w,
+            myZombieList.get(i).h);
+
+      }
+
       g.setColor(Color.red);
       g.setFont(new Font("Arial", Font.BOLD, 15));
       FontMetrics metrics1 = getFontMetrics(g.getFont());
@@ -73,7 +72,7 @@ public class GamePanel extends JPanel implements ActionListener {
   public void draw2(Graphics g) {
     Graphics2D g2d = (Graphics2D) g.create();
     for (int i = 0; i < PistolList.size(); i++) {
-      g2d.drawImage(PistolList.get(i).image, PistolList.get(i).posX, PistolList.get(i).posY, 50, 50, this);
+      g2d.drawImage(PistolList.get(i).image, PistolList.get(i).posX, PistolList.get(i).posY, this);
     }
 
   }
@@ -127,8 +126,8 @@ public class GamePanel extends JPanel implements ActionListener {
       }
 
     }
-    // checkCollision();
-    // checkCollisionWithZombie();
+    checkCollision();
+    checkCollisionWithZombie();
     repaint();
   }
 
@@ -165,18 +164,39 @@ public class GamePanel extends JPanel implements ActionListener {
       switch (e.getKeyCode()) {
         case java.awt.event.KeyEvent.VK_A:
           m.move('L');
+          if (m.press % 2 == 0) {
+            m.image = m.left_2;
+          } else {
+            m.image = m.left_1;
+          }
           repaint();
           break;
         case java.awt.event.KeyEvent.VK_D:
           m.move('R');
+          if (m.press % 2 == 0) {
+            m.image = m.right_2;
+          } else {
+            m.image = m.right_1;
+          }
           repaint();
           break;
         case java.awt.event.KeyEvent.VK_W:
           m.move('U');
+          if (m.press % 2 == 0) {
+            m.image = m.up_2;
+          } else {
+            m.image = m.up_1;
+          }
           repaint();
           break;
         case java.awt.event.KeyEvent.VK_S:
           m.move('D');
+          if (m.press % 2 == 0) {
+            m.image = m.down_2;
+          } else {
+            m.image = m.down_1;
+          }
+
           repaint();
           break;
       }
